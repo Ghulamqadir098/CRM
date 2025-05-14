@@ -72,7 +72,7 @@ class CartController extends Controller
             $type::where('id', $request->itemable_id)->decrement('stock_quantity', $request->quantity);    
             }
             elseif($type::find($request->itemable_id)->stock_quantity){
-                dd('hello');
+               
                 DB::rollBack();
                 return response()->json([
                     'success' => false,
