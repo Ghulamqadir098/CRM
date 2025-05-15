@@ -1,11 +1,13 @@
 <?php
 namespace App\Http\Controllers\Api\Service;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ServiceStoreRequest;
-use App\Http\Requests\ServiceUpdateRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+
+use App\Http\Requests\ServiceStoreRequest;
+use App\Http\Requests\ServiceUpdateRequest;
 
 class ServiceController extends Controller
 {
@@ -14,6 +16,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
+        Gate::authorize('read-all-services');
         $services=Service::all();
         if ($services->isEmpty()) {
             return response()->json([
@@ -33,6 +36,7 @@ class ServiceController extends Controller
      */
     public function store(ServiceStoreRequest $request)
     {
+       Gate::authorize('create-service');
         $service= new Service();
         $service->name=$request->name;
         $service->description=$request->description;
@@ -58,6 +62,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
+        Gate::authorize('read-service');
         return response()->json([
             'success' => true,
             'data' => $service,
@@ -69,6 +74,7 @@ class ServiceController extends Controller
      */
     public function update(ServiceUpdateRequest $request, Service $service)
     {
+        Gate::authorize('update-service');
         //   dd($service);
         $service->name=$request->name;
         $service->description=$request->description;
@@ -99,6 +105,7 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+        Gate::authorize('delete-service');
         $service->delete();
         // delete old image 
         if ($service->getRawOriginal('image') && file_exists(public_path($service->getRawOriginal('image')))) {

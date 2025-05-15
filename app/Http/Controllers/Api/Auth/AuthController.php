@@ -66,7 +66,7 @@ class AuthController extends Controller
          $user->name = $request->name;
          $user->email = $request->email;
          $user->password = bcrypt($request->password);
-         $user->role = 'customer';
+         $user->assignRole('customer');
          if($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -229,10 +229,11 @@ public function logout(Request $request) {
   }
   public function forgotPassword(Request $request)
   {
+    $request->validate([
+        'email' => 'required|email|exists:users,email',
+    ]);
    try{
-      $request->validate([
-          'email' => 'required|email|exists:users,email',
-      ]);
+
   
       $otp = rand(100000, 999999); // 6-digit OTP
       $email = $request->email;

@@ -37,38 +37,41 @@ Route::post('/login','login');
 Route::post('/logout','logout')->middleware(['api.auth']);
 });
 Route::post('/email/verify',[AuthController::class,'verifyEmail'])
-->middleware(['api.auth','throttle:6,1'])->name('verification.verify');
+->middleware(['auth:sanctum','throttle:6,1'])->name('verification.verify');
 
 //=================================================> Lead Routes<===================================================
-Route::resource('lead',LeadController::class)->middleware(['api.auth','role.agent','api.verified']);
+Route::resource('lead',LeadController::class)->middleware(['auth:sanctum','role.agent','api.verified']);
 //=================================================> Service Routes<===================================================
-Route::resource('service',ServiceController::class)->middleware(['api.auth','role.admin','api.verified']);
+Route::resource('service',ServiceController::class)->middleware(['auth:sanctum','api.verified']);
 //=================================================> Product Routes<===================================================
-Route::resource('product',ProductController::class)->middleware(['api.auth','role.admin','api.verified']);
+Route::resource('product',ProductController::class)->middleware(['auth:sanctum','api.verified']);
 //=================================================> Agent Routes<===================================================
-Route::middleware(['api.auth','api.verified'])->prefix('/agent')->group(function () {
+Route::middleware(['auth:sacntum','api.verified'])->prefix('/agent')->group(function () {
 Route::get('/fetch/customers',[AgentController::class,'index']);
 });
-Route::controller(CustomerController::class)->middleware(['api.auth','role.agent','api.verified'])->group(function () {
+Route::controller(CustomerController::class)->middleware(['auth:sanctum','role.agent','api.verified'])->group(function () {
     Route::post('/fetch/cart/by-user','fetchCart'); 
  });
 
 
 
 //=================================================>Add to Cart Routes<===================================================
-Route::controller(CartController::class)->middleware(['api.auth','role.customer','api.verified'])->group(function () {
+Route::controller(CartController::class)->middleware(['auth:sanctum','api.verified'])->group(function () {
    Route::post('/add/to/cart','addToCart'); 
 });
 
 
-//=================================================>Order Creation <===================================================
-Route::controller(OrderController::class)->middleware(['api.auth','api.verified','role.customer'])->group(function(){
+//=================================================>Order Routes <===================================================
+Route::controller(OrderController::class)->middleware(['auth:sanctum','api.verified'])->group(function(){
 
   Route::post('/customer/checkout/{cart}','checkout');  
+                                      //==========================>All Order fetch<=====================//
+
+  Route::get('/customer/orders','index');
 });
 
 //==================================================Stripe Payment Routes<===================================================
-Route::controller(StripePaymentController::class)->middleware(['api.auth','role.customer','api.verified'])->group(function () {
+Route::controller(StripePaymentController::class)->middleware(['auth:sanctum','api.verified'])->group(function () {
     Route::get('stripe', 'stripe');
     Route::get('stripe/{order}', 'checkout')->name('stripe.post');
 });

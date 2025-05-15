@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+
 // use Illuminate\Container\Attributes\DB;
 
 class CartController extends Controller
@@ -80,6 +82,8 @@ class CartController extends Controller
                 ], 400);
             }
         }
+    //    dd($cart);        
+        Gate::authorize('add-to-cart', $cart);// placed befor Commit just in case if cart gets created for unauthenticated user it will be rolled back
      DB::commit();
         return response()->json([
             'success' => true,

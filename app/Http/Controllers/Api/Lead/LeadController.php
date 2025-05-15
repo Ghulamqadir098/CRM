@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\Lead;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\LeadStoreRequest;
 use App\Http\Requests\LeadUpdateRequest;
+// use Illuminate\Auth\Access\Gate;
 
 class LeadController extends Controller
 {
@@ -15,6 +17,7 @@ class LeadController extends Controller
      */
     public function index()
     {
+        Gate::authorize('read-all-leads');
         $leads = Lead::with('user')->get();
        if ($leads->isEmpty()) {
            return response()->json([
@@ -42,7 +45,7 @@ class LeadController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(LeadStoreRequest $request)
-    {  
+    {  Gate::authorize('create-lead');
        $agent = $request->user();
        $lead = $agent->leads()->create($request->all());
        return response()->json([
@@ -57,6 +60,7 @@ class LeadController extends Controller
      */
     public function show(Lead $lead)
     {
+        Gate::authorize('read-lead');
         return response()->json([
             'success' => true,
             'message' => 'Lead fetched successfully',
@@ -77,6 +81,7 @@ class LeadController extends Controller
      */
     public function update(LeadUpdateRequest $request, Lead $lead)
     {
+        Gate::authorize('update-lead');
         $lead->update($request->all());
         return response()->json([
             'success' => true,
@@ -90,6 +95,7 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
+        Gate::authorize('delete-lead');
         $lead->delete();
         return response()->json([
             'success' => true,

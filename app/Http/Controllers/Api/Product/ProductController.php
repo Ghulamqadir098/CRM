@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\Product;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+
 
 class ProductController extends Controller
 {
@@ -15,6 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        Gate::authorize('read-all-products');
         $products=Product::all();
         if ($products->isEmpty()) {
             return response()->json([
@@ -35,6 +38,8 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
+        
+        Gate::authorize('create-product');
         $product= new Product();
         $product->name=$request->name;
         $product->description=$request->description;
@@ -61,6 +66,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        Gate::authorize('read-product');
         return response()->json([
             'success' => true,
             'message' => 'Product fetched successfully',
@@ -73,6 +79,7 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
+        Gate::authorize('update-product');
         $product->name=$request->name;
         $product->description=$request->description;
         $product->price=$request->price;
@@ -103,6 +110,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        Gate::authorize('delete-product');
         // delete old image
         if ($product->getRawOriginal('image') && file_exists(public_path($product->getRawOriginal('image')))) {
             unlink(public_path($product->getRawOriginal('image')));
