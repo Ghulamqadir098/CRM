@@ -24,6 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone','address','company','agent_id'
+        ,'image'
     ];
 
     /**
@@ -69,5 +71,9 @@ class User extends Authenticatable
     public function sendEmailVerificationNotification()
     {
         $this->notify(new CustomVerifyEmail());
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

@@ -37,6 +37,7 @@ class RolePermissionSeeder extends Seeder
                 //Lead
                 'create lead',
                 'read lead',
+                'read own leads',
                 'update lead',
                 'delete lead',
                 'read all leads',
@@ -52,6 +53,19 @@ class RolePermissionSeeder extends Seeder
                 'view order',
                 'view orders',
                 'view all orders',
+
+                // User 
+                'read all users',
+                'read own customers',
+                'read own agent',
+                'create agent',
+                'create customer',
+                
+                // Roles
+                'create role',
+                'read role',
+                'update role',
+                'delete role',
             ];
     
             foreach ($permissions as $permission) {
@@ -67,18 +81,27 @@ class RolePermissionSeeder extends Seeder
             $admin->givePermissionTo([
                 'create product', 'read product', 'update product', 'delete product',
                 'create service', 'read service', 'update service', 'delete service',
-                'view all carts', 'view all orders','read all products','read all services','read all leads'
+               
+                'view all carts', 'view all orders','read all products','read all services','read all leads',
+               //users
+                'read all users','create agent','create customer',
+               //roles 
+               'create role',
+                'read role',
+                'update role',
+                'delete role',
+
             ]);
     
             // Agent  permissions 
             $agent->givePermissionTo([
-                'create lead', 'read lead', 'update lead', 'delete lead',
+                'create lead', 'read lead', 'update lead', 'delete lead','read own customers','read own leads',
             ]);
     
             // Assign permissions to customer
             $customer->givePermissionTo([
                 'add to cart', 'view cart', 'remove from cart',
-                'place order', 'view orders','view order'
+                'place order', 'view orders','view order','read own agent'
             ]);
         }
     }

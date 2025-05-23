@@ -10,7 +10,9 @@ use App\Policies\CartPolicy;
 use App\Policies\LeadPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\ProductPolicy;
+use App\Policies\RolePolicy;
 use App\Policies\ServicePolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -69,5 +71,16 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('view-order', [OrderPolicy::class, 'viewOrder']);
         Gate::define('view-orders', [OrderPolicy::class, 'viewOrders']);
 
+        // user Gate
+        Gate::define('view-all-users', [UserPolicy::class, 'viewAllUsers']);
+        Gate::define('create-agent', [UserPolicy::class, 'createAgent']);
+        Gate::define('create-customer', [UserPolicy::class, 'createCustomer']);
+
+        // role Gate
+     
+        Gate::define('create-role', [RolePolicy::class, 'createRole']);
+        Gate::define('update-role', [RolePolicy::class, 'updateRole']);
+        Gate::define('delete-role', [RolePolicy::class, 'deleteRole']);
+        Gate::define('read-role', [RolePolicy::class, 'readRole']);
     }
 }

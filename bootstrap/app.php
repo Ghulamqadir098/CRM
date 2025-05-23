@@ -35,57 +35,71 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
 
         $exceptions->render(function (ModelNotFoundException $e, Request $request) {
+          
+            if ($request->expectsJson()) {
             Log::error('Model Exception: ' . $e->getMessage());
     
             return response()->json([
                 'message' => "The requested Resource is not found on this Server",
             ],404);
+        }
         });
 
         $exceptions->render(function (ValidationException $e, $request) {
+            if ($request->expectsJson()) {
             Log::warning('Validation failed', $e->errors());
     
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $e->errors(),
             ], 422);
+        }
         });
     
         $exceptions->render(function (AuthenticationException $e, $request) {
+            if ($request->expectsJson()) {
+           
             Log::notice('Unauthenticated access attempt');
     
             return response()->json([
                 'message' => 'Unauthenticated',
             ], 401);
+            }
         });
     
         $exceptions->render(function (MethodNotAllowedHttpException $e, $request) {
+            if ($request->expectsJson()) {
+            
             Log::warning('Wrong HTTP method used.');
         
             return response()->json([
                 'message' => 'HTTP method not allowed for this route.'.$e->getMessage(),
             ], 405);
+        }
         });
         
     
         $exceptions->render(function (HttpException $e, $request) {
+            if ($request->expectsJson()) {
+         
             Log::error('HTTP Exception: ' . $e->getMessage());
     
             return response()->json([
                 'message' => $e->getMessage() ?: 'HTTP error',
             ], $e->getStatusCode());
+            }
         });
 
     
         $exceptions->render(function (Throwable $e, $request) {
+            if ($request->expectsJson()) {
+            
             Log::critical('Unhandled exception: ' . $e->getMessage());
     
             return response()->json([
                 'message' => 'Server Error',
                 'error' => config('app.debug') ? $e->getMessage() : 'Something went wrong',
             ], 500);
-        });
-
-    
-        
+        }
+        }); 
     })->create();

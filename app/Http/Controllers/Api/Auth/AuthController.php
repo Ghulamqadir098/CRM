@@ -294,4 +294,7 @@ public function logout(Request $request) {
         return response()->json(['message' => 'Password reset failed', 'error' => $e->getMessage()], 500);
        }
   }
+
+
+
 }
