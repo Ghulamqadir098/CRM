@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Lead\LeadController;
+use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Product\ProductController;
@@ -69,3 +70,6 @@ Route::get('customer/view/{customer}',[UserController::class,'customerView'])->n
 
 // Roles
 Route::resource('roles',RoleController::class)->middleware('auth');
+
+// Permissions
+Route::get('permissions',[PermissionController::class,'permissions'])->middleware('auth');

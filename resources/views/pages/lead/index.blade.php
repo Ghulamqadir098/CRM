@@ -12,6 +12,7 @@
                                 class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">Leads</a>
                         </li>
                     </ol>
+                    @can('create lead')
                     <div class="mx-3 inline-flex items-center justify-end gap-2">
                         <button type="button">
                             <a class="btn btn-primary flex" href="{{ route('leadweb.create') }}">Add
@@ -19,7 +20,9 @@
                             </a>
                         </button>
 
-                    </div>
+                    </div> 
+                    @endcan
+                   
                 </span>
 
 
@@ -30,7 +33,9 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>phone</th>
-                            <th class="text-center">Action</th>
+                            @canany(['update lead','delete lead'])
+                            <th class="text-center">Action</th>   
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +46,7 @@
                                 <td class="whitespace-nowrap">{{ $lead->name }}</td>
                                 <td>{{ $lead->email }}</td>
                                 <td>{{ $lead->phone }}</td>
+                               @canany(['update lead','delete lead'])
                                 <td>
                                     @php
                                         $leadweb = $lead->id;
@@ -62,6 +68,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endcanany
                         @endforeach
 
 
@@ -80,6 +87,7 @@
                                     class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">Leads</a>
                             </li>
                         </ol>
+                        @can('create lead')
                         <div class="mx-3 inline-flex items-center justify-end gap-2">
                             <button type="button">
                                 <a class="btn btn-primary flex" href="{{ route('leadweb.create') }}">Add
@@ -88,6 +96,9 @@
                             </button>
 
                         </div>
+                            
+                        @endcan
+                      
                     </span>
                     <table id="my-table-id" class="table-hover">
                         <thead>
@@ -96,7 +107,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>phone</th>
+                                @canany(['update lead','delete lead'])
                                 <th class="text-center">Action</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -110,11 +123,12 @@
                                     <td class="whitespace-nowrap">{{ $lead->name }}</td>
                                     <td>{{ $lead->email }}</td>
                                     <td>{{ $lead->phone }}</td>
+                                    @canany(['update lead','delete lead'])
+                                   
                                     <td class="text-center">
                                         @php
                                             $leadweb = $lead->id;
                                         @endphp
-
 
 
                                         <button>
@@ -134,6 +148,7 @@
                                         </form>
 
                                     </td>
+                                    @endcanany
                             @endforeach
 
 

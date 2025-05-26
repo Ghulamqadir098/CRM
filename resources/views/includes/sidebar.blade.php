@@ -65,7 +65,7 @@
                                 </button>
                                 <ul x-show="activeDropdown === 'dashboard'" x-collapse="" class="sub-menu text-gray-500" style="height: 0px; overflow: hidden; display: none;" hidden="">
                                     <li>
-                                        @canany(['read own agent','read all users'])
+                                        @canany(['read own agent','create agent', 'read agent', 'update agent', 'delete agent','read all users'])
                                         <a class="group {{ request()->routeIs('agent.index') ? 'active' : '' }}" href="{{ route('agent.index') }}">Agents</a>
                                         @endcanany
                                     </li>
@@ -118,7 +118,7 @@
                                 @endcanany
                            
                                     
-                               @canany(['create product', 'read product', 'update product', 'delete product'])
+                               @canany(['create product', 'read product', 'update product', 'delete product','read all products'])
                                 {{-- Product --}}
                                 <li class="nav-item">
                                     <ul>
@@ -142,7 +142,7 @@
                                 </li>
                                 @endcanany    
                              
-                                @canany(['create service', 'read service', 'update service', 'delete service'])
+                                @canany(['create service', 'read service', 'update service', 'delete service','read all services'])
                                {{-- Services --}}
                                <li class="nav-item">
                                 <ul>

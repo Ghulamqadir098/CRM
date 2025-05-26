@@ -13,7 +13,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        Gate::authorize('read-service');
+        Gate::authorize('read all services');
         $services= Service::all();
         return view('pages.service.index',compact('services'));
     }

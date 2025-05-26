@@ -12,10 +12,13 @@
             </li>
         </ol>
         <div class=" mx-3 inline-flex items-center justify-end gap-2">
-            <button type="button">
-                <a class="btn btn-primary flex" href="{{ route('serviceweb.create') }}">Add</a>
-               
-            </button>
+          @can('create service')
+          <button type="button">
+            <a class="btn btn-primary flex" href="{{ route('serviceweb.create') }}">Add</a>
+           
+        </button>  
+          @endcan
+           
 
         </div>
        </span>
@@ -30,7 +33,9 @@
                 <th>Image</th>
                 <th>Price</th>
                 <th>Duration</th>
+                @canany(['update service', 'delete service'])
                 <th class="text-center">Action</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>
@@ -43,6 +48,7 @@
                 </td>
                 <td>{{ $service->price }}</td>
                 <td>{{ $service->duration }}: Days</td>
+                @canany(['update service', 'delete service'])
                 <td>
                    
                    <button>
@@ -62,7 +68,7 @@
                     </button>
                 </form>
                 </td>    
-
+                @endcanany
             @endforeach
 
             {{-- <tr>

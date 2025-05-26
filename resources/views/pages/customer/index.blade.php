@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- table light -->
-        @can('create customer')
+        @can('read all users')
             <div class="table-responsive mt-5">
                 <div class="table-header">
                 <span class="mb-6 flex items-center justify-between">
@@ -17,11 +17,14 @@
                     </li>
                     </ol>
                     <div class="mx-3 inline-flex items-center justify-end gap-2">
+                        @can('create customer')
                         <button type="button">
                             <a class="btn btn-primary flex"  href="{{ route('admin.customer.register') }}">Add
                            
                         </a>
                         </button>
+                        @endcan
+                        
 
                     </div>
                 </span>                    
@@ -32,7 +35,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Created At</th>
+                                @canany(['update customer','delete customer'])
                                 <th class="text-center">Action</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -47,6 +52,8 @@
                                     </td>
                                     <td>{{ $customer->email }}</td>
                                     <td>{{ $customer->created_at }}</td>
+                                @canany(['update customer','delete customer'])
+                                    
                                     <td >
                                         <button class="ml-2">
                                             <a href="{{ route('customer.view', $customer) }}" class="self-baseline">
@@ -71,6 +78,7 @@
                                         </form>
 
                                     </td>
+                                   @endcanany 
                                 </tr>
                             @endforeach
 

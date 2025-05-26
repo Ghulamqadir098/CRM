@@ -59,7 +59,11 @@ class RolePermissionSeeder extends Seeder
                 'read own customers',
                 'read own agent',
                 'create agent',
+                'update agent',
+                'delete agent',
                 'create customer',
+                'update customer',
+                'delete customer',
                 
                 // Roles
                 'create role',

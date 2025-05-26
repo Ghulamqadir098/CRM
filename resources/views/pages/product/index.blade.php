@@ -11,13 +11,15 @@
                         class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">Products</a>
                 </li>
             </ol>
-            <div class="mt-3 mx-3 inline-flex items-center justify-end gap-2">
-                <button type="button" >
-                    <a class="btn btn-primary flex" href="{{ route('productweb.create') }}">Add</a>
-                    
-                </button>
-    
-            </div>
+           @can('create product')
+           <div class="mt-3 mx-3 inline-flex items-center justify-end gap-2">
+            <button type="button" >
+                <a class="btn btn-primary flex" href="{{ route('productweb.create') }}">Add</a>
+                
+            </button>
+
+        </div>
+           @endcan
         </span>
        
         {{-- <div class="flex items-center gap-2">
@@ -31,7 +33,9 @@
                 <th>Image</th>
                 <th>Price</th>
                 <th>Stock</th>
+               @canany(['update product','delete product'])
                 <th>Action</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>
@@ -44,6 +48,8 @@
                 </td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->stock_quantity }}</td>
+                
+              @canany(['update product','delete product'])
                 <td>
                     @php
                         $productweb = $product->id;
@@ -65,7 +71,7 @@
                     </button>
                 </form>
                 </td>    
-
+                @endcanany
             @endforeach
 
             {{-- <tr>

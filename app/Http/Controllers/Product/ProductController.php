@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-       Gate::authorize('read-product');
+       Gate::authorize('read-all-products');
         $products=Product::all();
       return view('pages.product.index',compact('products'));
     }

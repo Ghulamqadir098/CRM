@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- table light -->
-    @can('create agent')
+    @can('read all users')
         <div class="mt-5 table-responsive">
             <div class="mt-5 table-header">
                 <span class="mb-6 flex items-center justify-between">
@@ -16,13 +16,16 @@
                     </li>
                     </ol>
                     <div class="mx-3 flex items-center justify-end gap-2">
+                        @can('create agent')
                         <button type="button">
                             {{-- <a href="{{ route('agent.register') }}">Add</a> --}}
                             <a class="btn btn-primary flex" href="{{ route('admin.agent.register') }}">Add
 
                             
                         </a>
-                        </button>
+                        </button>  
+                        @endcan
+                       
 
                     </div>
                 </span>
@@ -34,7 +37,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Created At</th>
+                                @canany(['update agent','delete agent'])
                                 <th class="text-center">Action</th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>
@@ -50,6 +55,7 @@
 
                                     <td>{{ $agent->email }}</td>
                                     <td>{{ $agent->created_at }}</td>
+                                  @canany(['update agent','delete agent'])
                                     <td>
                                         <button class="ml-2">
                                             <a href="{{ route('agent.view', $agent) }}" class="self-baseline">
@@ -76,6 +82,7 @@
                                             </button>
                                         </form>
                                     </td>
+                                    @endcanany
                                 </tr>
                             @endforeach
 
